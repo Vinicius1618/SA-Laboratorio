@@ -1,24 +1,41 @@
 package laboratoriosenai;
-import com.sun.jdi.connect.spi.Connection;
-import java.util.*;
+import java.sql.Connection;
+import Util.Conexao;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.ResultSet;
 
 public class Laboratorio extends Equipamento {
 
     public Laboratorio() {
     }
 
-    public int codlaboratorio;
+    private int codlaboratorio;
 
-    public int codBloco;
+    private int codBloco;
 
-    public char tipolaboratorio;
+    private String tipolaboratorio;
 
-    public String descrLaboratorio;
+    private String descrLaboratorio;
+    
+    private String situacaoLaboratorio;
 
-    public void incluirLaboratorio() {
-       String sql="Insert into laboratirio(codBloco,tipolaboratorio,descrLaboratorio )";
-       //sql+=" values(?,?,?)";
-       //Connection con=Co
+    public boolean incluirLaboratorio() {
+       String sql =" insert into tecnico (codbloco,tipolaboratorio,descrlaboratorio,situaçaolaboratorio) ";
+       sql+= " values(?,?,?)";
+       java.sql.Connection con = Conexao.conectar();
+        try {
+           PreparedStatement  stm=con.prepareStatement(sql);
+           stm.setInt(1, this.codBloco);
+           stm.setString(2, this.tipolaboratorio);
+           stm.setString(3, this.descrLaboratorio);
+           stm.setString(4, this.situacaoLaboratorio);
+           stm.execute();
+        } catch (SQLException ex) {
+            System.out.println("Error "+ex.getMessage()+sql);
+            return false;
+        }
+        return true;
     }
 
     public void alterarLaboratorio() {
@@ -31,6 +48,46 @@ public class Laboratorio extends Equipamento {
 
     public void consultarLaboratorio() {
         // TODO implement here
+    }
+
+    public int getCodlaboratorio() {
+        return codlaboratorio;
+    }
+
+    public void setCodlaboratorio(int codlaboratorio) {
+        this.codlaboratorio = codlaboratorio;
+    }
+
+    public int getCodBloco() {
+        return codBloco;
+    }
+
+    public void setCodBloco(int codBloco) {
+        this.codBloco = codBloco;
+    }
+
+    public String getTipolaboratorio() {
+        return tipolaboratorio;
+    }
+
+    public void setTipolaboratorio(String tipolaboratorio) {
+        this.tipolaboratorio = tipolaboratorio;
+    }
+
+    public String getDescrLaboratorio() {
+        return descrLaboratorio;
+    }
+
+    public void setDescrLaboratorio(String descrLaboratorio) {
+        this.descrLaboratorio = descrLaboratorio;
+    }
+
+    public String getSituacaoLaboratorio() {
+        return situacaoLaboratorio;
+    }
+
+    public void setSituacaoLaboratorio(String situacaoLaboratorio) {
+        this.situacaoLaboratorio = situacaoLaboratorio;
     }
 
 }
