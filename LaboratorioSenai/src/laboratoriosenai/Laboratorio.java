@@ -16,7 +16,7 @@ public class Laboratorio extends Equipamento {
     public String descrLaboratorio;
 
     public void incluirLaboratorio() {
-       //String sql="Insert into laboratirio(codBloco,tipolaboratorio,descrLaboratorio )";
+       String sql="Insert into laboratirio(codBloco,tipolaboratorio,descrLaboratorio )";
        //sql+=" values(?,?,?)";
        //Connection con=Co
     }
