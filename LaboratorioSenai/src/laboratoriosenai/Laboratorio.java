@@ -1,4 +1,5 @@
 package laboratoriosenai;
+import com.sun.jdi.connect.spi.Connection;
 import java.util.*;
 
 public class Laboratorio extends Equipamento {
@@ -15,7 +16,9 @@ public class Laboratorio extends Equipamento {
     public String descrLaboratorio;
 
     public void incluirLaboratorio() {
-        // TODO implement here
+       //String sql="Insert into laboratirio(codBloco,tipolaboratorio,descrLaboratorio )";
+       //sql+=" values(?,?,?)";
+       //Connection con=Co
     }
 
     public void alterarLaboratorio() {
