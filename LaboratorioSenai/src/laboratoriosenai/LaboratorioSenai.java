@@ -2,18 +2,19 @@ package laboratoriosenai;
 
 public class LaboratorioSenai {
     public static void main(String[] args) {
-        //Tecnico tec = new Tecnico();
+        Tecnico tec = new Tecnico();
         Laboratorio lab = new Laboratorio();
         //Software sof = new Software();
         
-        /*tec.setNomeTecnico("Jose da Silva");
+        tec.setNomeTecnico("Jose da Silva");
         tec.setFoneTecnico("(47) 98555-4298");
         tec.setEmailTecnico("zecasilva@javou.com.br");
         if (tec.incluirTecnico()){ //isso inclui o tecnico
             System.out.println("Tecnico incluido com sucesso");
         } else {
             System.out.println("Deu problema na inclusão do tecnico");
-        }  
+        }
+        /*
         tec.setNomeTecnico("Arnaldo");
         tec.setFoneTecnico("(47) 98555-4298");
         tec.setEmailTecnico("zecasilva@javou.com.br");
@@ -91,6 +92,6 @@ public class LaboratorioSenai {
         }
         }*/
          //sof.consultarSoftwares();//isso aqui consulta todos laboratorios
-         lab.consultarLaboratorios();
+         //lab.consultarLaboratorios();
     }
 }
