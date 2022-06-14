@@ -2,7 +2,7 @@ package laboratoriosenai;
 
 public class LaboratorioSenai {
     public static void main(String[] args) {
-        Tecnico tec = new Tecnico();
+        /*Tecnico tec = new Tecnico();
         Laboratorio lab = new Laboratorio();
         Software sof = new Software();
         
@@ -13,7 +13,7 @@ public class LaboratorioSenai {
             System.out.println("Tecnico incluido com sucesso");
         } else {
             System.out.println("Deu problema na inclusão do tecnico");
-        }
+        }*/
         /*
         tec.setNomeTecnico("Arnaldo");
         tec.setFoneTecnico("(47) 98555-4298");
