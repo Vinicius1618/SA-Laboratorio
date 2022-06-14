@@ -4,7 +4,7 @@ public class LaboratorioSenai {
     public static void main(String[] args) {
         Tecnico tec = new Tecnico();
         Laboratorio lab = new Laboratorio();
-        //Software sof = new Software();
+        Software sof = new Software();
         
         tec.setNomeTecnico("Jose da Silva");
         tec.setFoneTecnico("(47) 98555-4298");
@@ -64,7 +64,7 @@ public class LaboratorioSenai {
         } else {
             System.out.println("Deu problema na consulta do laboratorio");
         }*/
-         /*sof.setDescSoftware("Java");
+         sof.setDescSoftware("Java");
          sof.setDescVersao("13.5");
          sof.setDataInstalacao("2060-12-31");
          sof.setTipoLicença("V");
@@ -72,7 +72,7 @@ public class LaboratorioSenai {
             System.out.println("Software incluido com sucesso");
         } else {
             System.out.println("Deu problema na inclusão do software");
-        }*/
+        }
          /*sof.setDescSoftware("Python");
          sof.setDescVersao("20");
          sof.setDataInstalacao("2022-12-31");
