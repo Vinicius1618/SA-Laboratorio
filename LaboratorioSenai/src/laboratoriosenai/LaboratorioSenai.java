@@ -1,11 +1,13 @@
 package laboratoriosenai;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.sql.Date;
 public class LaboratorioSenai {
     public static void main(String[] args) {
         //****** TECNICOS --- INICIO
         /*Tecnico tec = new Tecnico();
-        Software sof = new Software();
         tec.setNomeTecnico("Jose da Silva");
         tec.setFoneTecnico("(47) 98555-4298");
         tec.setEmailTecnico("zecasilva@javou.com.br");
@@ -36,9 +38,8 @@ public class LaboratorioSenai {
         //****** TECNICOS --- FIM
         
         //****** LABORATORIO --- INICIO
-        
-        Laboratorio lab = new Laboratorio();
-        lab.setCodBloco("S");
+        //Laboratorio lab = new Laboratorio();
+        /*lab.setCodBloco("S");
         lab.setCodLaboratorio(4);
         lab.setTipoLaboratorio("S");
         lab.setDescrLaboratorio("É um laboratorio de SEcsu");
@@ -63,20 +64,23 @@ public class LaboratorioSenai {
         }
          List<Laboratorio> listaLaboratorio = new ArrayList<>();//isso consulta os tecnicos
          listaLaboratorio = lab.consultarLaboratorios();
-         for (Tecnico tecn : listaTecnicos) {
-            System.out.println("Código : " + tecn.getCodTecnico());
-            System.out.println("Nome   : " + tecn.getNomeTecnico());
-            System.out.println("Fone   : " + tecn.getFoneTecnico());
-            System.out.println("eMail  : " + tecn.getEmailTecnico());
-         
+         for (Laboratorio labo : listaLaboratorio) {
+            System.out.println("Código do bloco  : " + labo.getCodBloco());
+            System.out.println("Codigo do laboratorio  : " + labo.getCodLaboratorio());
+            System.out.println("Tipo do laboratorio  : " + labo.getTipoLaboratorio());
+            System.out.println("Descrição do laboratorio  : " + labo.getDescrLaboratorio());
+            System.out.println("Situação do laboratorio  : " + labo.getSituacaoLaboratorio());
+         */
         //****** LABORATORIO --- FIM
         
         //****** SOFTWARE  --- INICIO
-        /*Software sof = new Software();
-        sof.setDescSoftware("Oracle");
-         sof.setDescVersao("7.0");
-         sof.setDataInstalacao("2022-06-14");
-         sof.setTipoLicença("V");
+        Software sof = new Software();
+        DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDate data = LocalDate.parse("14/06/2022",formato);
+        sof.setDescSoftware("Heidi");
+        sof.setDescVersao("13.0");
+        sof.setDataInstalacao(Date.valueOf(data));
+        sof.setTipoLicença("V");
          if (sof.incluirSoftware()){ //isso inclui o tecnico
             System.out.println("Software incluido com sucesso");
         } else {
@@ -86,24 +90,19 @@ public class LaboratorioSenai {
          sof.setDescSoftware("Python");
 
          sof.setDescVersao("20");
-         sof.setDataInstalacao("2022-12-31");
+         sof.setDataInstalacao(Date.valueOf(data));
          sof.setTipoLicença("V");
          sof.setCodSoftware(2);
          sof.alterarSoftware();//isso aqui altera o software
-         */
-         /*sof.setCodSoftware(2);
-          if (sof.excluirSoftware()){ //isso exclui os softwares
-            System.out.println("software excluido com sucesso");
-        } else {
-            System.out.println("Deu problema na exclusao do software");*/
-          /*sof.setCodSoftware(4);
-          if (sof.consultarSoftware()){ //isso aqui faz a consulta
-        } else {
-            System.out.println("Deu problema na consulta do software");
-        }
-        }*/
-         //sof.consultarSoftwares();//isso aqui consulta todos laboratorios
          
-        //****** SOFTWARE  --- FIM
+         List<Software> listaSoftware = new ArrayList<>();//isso consulta os tecnicos
+         listaSoftware = sof.consultarSoftwares();
+         for (Software soft : listaSoftware) {
+            System.out.println("Código do software  : " + soft.getCodSoftware());
+            System.out.println("Descrição do software  : " + soft.getDescSoftware());
+            System.out.println("Descrição da versão  : " + soft.getDescVersao());
+            System.out.println("Data da instalação  : " + soft.getDataInstalacao());
+            System.out.println("Tipo da licença  : " + soft.getTipoLicença() );
+        //****** SOFTWARE  --- FIM */
+         }
     }
-}

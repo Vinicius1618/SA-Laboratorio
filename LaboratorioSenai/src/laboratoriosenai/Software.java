@@ -4,6 +4,9 @@ import Util.Conexao;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 public class Software {
 
     public Software() {
@@ -15,7 +18,7 @@ public class Software {
 
     private String descVersao;
 
-    private String dataInstalacao;
+    private Date dataInstalacao;
     
     private String tipoLicença;
 
@@ -27,7 +30,7 @@ public class Software {
            PreparedStatement  stm=con.prepareStatement(sql);
            stm.setString(1, this.descSoftware);
            stm.setString(2, this.descVersao);
-           stm.setString(3, this.dataInstalacao);
+           stm.setDate(3, (java.sql.Date) this.dataInstalacao);
            stm.setString(4, this.tipoLicença);
            stm.execute();
         } catch (SQLException ex) {
@@ -49,7 +52,7 @@ public class Software {
            PreparedStatement  stm=con.prepareStatement(sql);
            stm.setString(1, this.descSoftware);
            stm.setString(2, this.descVersao);
-           stm.setString(3, this.dataInstalacao);
+           stm.setDate(3, (java.sql.Date) this.dataInstalacao);
            stm.setString(4, this.tipoLicença);
            stm.setInt(5, this.codSoftware);
            stm.execute();
@@ -73,48 +76,51 @@ public class Software {
         return true;
     }
 
-    public boolean consultarSoftware() {
-        String sql =" select * ";
-       sql+= " from software ";
-       sql+= "where codsoftware = ? ";
+    public Software consultarSoftware(int pCodSoftware) {
        Connection con = Conexao.conectar();
+       String sql =" select descSoftware, descVersao, dataInstalaçao, tipoLicença ";
+       sql+= " from software ";
+       sql+= "where codSoftware ";
+       Software soft = null;
        try {
            PreparedStatement  stm=con.prepareStatement(sql);
-           stm.setInt(1, this.codSoftware);
+           stm.setInt(1, pCodSoftware);
            ResultSet rst = stm.executeQuery();
            if(rst.next()){
-               for (int i = 1; i <= 5; i++) {
-                   System.out.print(rst.getString(i)+ " ");
-                   System.out.println();
-               }
-               System.out.println("\n");
-           
+               soft = new Software();
+               soft.setCodSoftware(pCodSoftware);
+               soft.setDescSoftware(rst.getString("descSoftware"));
+               soft.setDescVersao(rst.getString("descVersao"));
+               soft.setDataInstalacao(rst.getDate("dataInstalaçao"));
+               soft.setTipoLicença(rst.getString("tipoLicença"));
            }
         } catch (SQLException ex) {
             System.out.println("Error "+ex.getMessage()+sql);
-            return false;
         }
-        return true;
+        return soft;
     }
-    public boolean consultarSoftwares() {
-       String sql =" select * ";
+    public List<Software> consultarSoftwares() {
+        List<Software> lista = new ArrayList<>();
+        Connection con = Conexao.conectar();
+       String sql =" select codSoftware, descSoftware, descVersao, dataInstalaçao, tipoLicença ";
        sql+= " from software ";
-       //sql+= " order by codsoftware  ";
-       Connection con = Conexao.conectar();
+       sql+= " order by codSoftware";
        try {
            PreparedStatement  stm=con.prepareStatement(sql);
            ResultSet rst = stm.executeQuery();
            while(rst.next()){
-               for (int i = 1; i <= 5; i++) {
-                   System.out.print(rst.getString(i)+ " ");
-               }
-               System.out.println("\n");
+              Software soft = new Software();
+              soft.setCodSoftware(rst.getInt("codSoftware"));
+               soft.setDescSoftware(rst.getString("descSoftware"));
+               soft.setDescVersao(rst.getString("descVersao"));
+               soft.setDataInstalacao(rst.getDate("dataInstalaçao"));
+               soft.setTipoLicença(rst.getString("tipoLicença"));
+              lista.add(soft);
            }
         }catch (SQLException ex) {
             System.out.println("Error "+ex.getMessage()+sql);
-            return false;
         }
-        return true;
+        return lista;
     }
 
     public int getCodSoftware() {
@@ -141,11 +147,11 @@ public class Software {
         this.descVersao = descVersao;
     }
 
-    public String getDataInstalacao() {
+    public Date getDataInstalacao() {
         return dataInstalacao;
     }
 
-    public void setDataInstalacao(String dataInstalacao) {
+    public void setDataInstalacao(Date dataInstalacao) {
         this.dataInstalacao = dataInstalacao;
     }
 
