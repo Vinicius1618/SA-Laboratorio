@@ -4,6 +4,8 @@ import Util.Conexao;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Laboratorio extends Equipamento {
 
@@ -75,49 +77,52 @@ public class Laboratorio extends Equipamento {
         return true;
     }
 
-    public boolean consultarLaboratorio() {
-        String sql =" select * ";
+    public Laboratorio consultarLaboratorio(String pCodBloco, int pCodLaboratorio) {
+       Connection con = Conexao.conectar();
+       String sql =" select codBloco, codLaboratorio, tipoLaboratorio, descrLaboratorio, situacaoLaboratorio ";
        sql+= " from laboratorio ";
        sql+= "where codBloco = ? and codLaboratorio = ? ";
-       Connection con = Conexao.conectar();
+       Laboratorio labo = null;
        try {
            PreparedStatement  stm=con.prepareStatement(sql);
-           stm.setString(1, this.codBloco);
-           stm.setInt(2, this.codLaboratorio);
+           stm.setString(1, pCodBloco);
+           stm.setInt(2, pCodLaboratorio);
            ResultSet rst = stm.executeQuery();
            if(rst.next()){
-               for (int i = 1; i <= 5; i++) {
-                   System.out.print(rst.getString(i)+ " ");
-                   System.out.println();
-               }
-               System.out.println("\n");
-           
+               labo = new Laboratorio();
+               labo.setCodBloco(pCodBloco);
+               labo.setCodLaboratorio(pCodLaboratorio);
+               labo.setTipoLaboratorio(rst.getString("tipoLaboratorio"));
+               labo.setDescrLaboratorio(rst.getString("descrLaboratorio"));
+               labo.setSituacaoLaboratorio(rst.getString("situacaoLaboratorio"));
            }
         } catch (SQLException ex) {
             System.out.println("Error "+ex.getMessage()+sql);
-            return false;
         }
-        return true;
+        return labo;
     }
-    public boolean consultarLaboratorios() {
-       String sql =" select * ";
+    public List<Laboratorio> consultarLaboratorios() {
+        List<Laboratorio> lista = new ArrayList<>();
+        Connection con = Conexao.conectar();
+       String sql =" select codBloco, codLaboratorio, tipoLaboratorio, descrLaboratorio, situacaoLaboratorio ";
        sql+= " from laboratorio ";
-       //sql+= " order by codtecnico  ";
-       Connection con = Conexao.conectar();
+       sql+= " order by codBloco and codLaboratorio";
        try {
            PreparedStatement  stm=con.prepareStatement(sql);
            ResultSet rst = stm.executeQuery();
            while(rst.next()){
-               for (int i = 1; i <= 5; i++) {
-                   System.out.print(rst.getString(i)+ " ");
-               }
-               System.out.println("\n");
+               Laboratorio labo = new Laboratorio();
+               labo.setCodBloco(rst.getString("codBloco"));
+               labo.setCodLaboratorio(rst.getInt("codLaboratorio"));
+               labo.setTipoLaboratorio(rst.getString("tipoLaboratorio"));
+               labo.setDescrLaboratorio(rst.getString("descrLaboratorio"));
+               labo.setSituacaoLaboratorio(rst.getString("situacaoLaboratorio"));
+              lista.add(labo);
            }
         }catch (SQLException ex) {
             System.out.println("Error "+ex.getMessage()+sql);
-            return false;
         }
-        return true;
+        return lista;
     }
 
     public int getCodLaboratorio() {
