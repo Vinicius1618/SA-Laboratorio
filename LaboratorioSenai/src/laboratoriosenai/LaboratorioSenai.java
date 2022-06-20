@@ -74,25 +74,23 @@ public class LaboratorioSenai {
         //****** LABORATORIO --- FIM
         
         //****** SOFTWARE  --- INICIO
-        Software sof = new Software();
+        /*Software sof = new Software();
         DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        LocalDate data = LocalDate.parse("14/06/2022",formato);
-        sof.setDescSoftware("Heidi");
-        sof.setDescVersao("13.0");
+        LocalDate data = LocalDate.parse("20/06/2022",formato);
+        sof.setDescSoftware("github");
+        sof.setDescVersao("V.15");
         sof.setDataInstalacao(Date.valueOf(data));
-        sof.setTipoLicença("V");
+        sof.setTipoLicença("F");
          if (sof.incluirSoftware()){ //isso inclui o tecnico
             System.out.println("Software incluido com sucesso");
         } else {
             System.out.println("Deu problema na inclusão do software");
         }
-         /*sof.setDescSoftware("Python");
          sof.setDescSoftware("Python");
-
          sof.setDescVersao("20");
          sof.setDataInstalacao(Date.valueOf(data));
          sof.setTipoLicença("V");
-         sof.setCodSoftware(2);
+         sof.setCodSoftware(4);
          sof.alterarSoftware();//isso aqui altera o software
          
          List<Software> listaSoftware = new ArrayList<>();//isso consulta os tecnicos
@@ -102,7 +100,39 @@ public class LaboratorioSenai {
             System.out.println("Descrição do software  : " + soft.getDescSoftware());
             System.out.println("Descrição da versão  : " + soft.getDescVersao());
             System.out.println("Data da instalação  : " + soft.getDataInstalacao());
-            System.out.println("Tipo da licença  : " + soft.getTipoLicença() );
+            System.out.println("Tipo da licença  : " + soft.getTipoLicença() );*/
+            
         //****** SOFTWARE  --- FIM */
+         
+         //****** EQUIPAMENTO --- INICIO
+         Equipamento equi = new Equipamento();
+         DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+         /*LocalDate data = LocalDate.parse("20/06/2022",formato);
+         equi.setCodSoftware(4);
+         equi.setCodBloco("A");
+         equi.setCodLaboratorio(1);
+         equi.setTipoEquipamento("M");
+         equi.setdescrEquipamento("Um monitor 4K");
+         equi.setSistemaOperacional("Windows 10");
+         equi.setSitPatrimonio("F");
+         equi.setDataEntrAtivo(Date.valueOf(data));
+         equi.setDataBaixaAtivo(Date.valueOf(data));
+         if (equi.incluirEquipamento()){ //isso inclui o equipamento
+            System.out.println("equipamento incluido com sucesso");
+        } else {
+            System.out.println("Deu problema na inclusão do equipamento");
+        }*/
+         LocalDate data = LocalDate.parse("21/06/2022",formato);
+         equi.setTipoEquipamento("M");
+         equi.setdescrEquipamento("Um monitor 4K muito pica");
+         equi.setSistemaOperacional("Windows 10");
+         equi.setSitPatrimonio("F");
+         equi.setDataEntrAtivo(Date.valueOf(data));
+         equi.setDataBaixaAtivo(Date.valueOf(data));
+         //equi.setCodBloco("A");
+         //equi.setCodLaboratorio(1);
+        // equi.setCodSoftware(4);
+         equi.setCodAtivo(1);
+         equi.alterarEquipamento();
          }
     }

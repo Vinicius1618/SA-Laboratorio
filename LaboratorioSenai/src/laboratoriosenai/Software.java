@@ -56,6 +56,7 @@ public class Software {
            stm.setString(4, this.tipoLicença);
            stm.setInt(5, this.codSoftware);
            stm.execute();
+            System.out.println("Deu bom");
         } catch (SQLException ex) {
             System.out.println("Error "+ex.getMessage()+sql);
         }
@@ -104,7 +105,7 @@ public class Software {
         Connection con = Conexao.conectar();
        String sql =" select codSoftware, descSoftware, descVersao, dataInstalaçao, tipoLicença ";
        sql+= " from software ";
-       sql+= " order by codSoftware";
+       sql+= " order by codSoftware = ?";
        try {
            PreparedStatement  stm=con.prepareStatement(sql);
            ResultSet rst = stm.executeQuery();

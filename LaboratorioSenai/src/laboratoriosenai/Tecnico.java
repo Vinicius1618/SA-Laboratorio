@@ -50,6 +50,7 @@ public class Tecnico extends Equipamento {
            stm.setString(3, this.emailTecnico);
            stm.setInt(4, this.codTecnico);
            stm.execute();
+           System.out.println("Deu bom");
         } catch (SQLException ex) {
             System.out.println("Error "+ex.getMessage()+sql);
         }
