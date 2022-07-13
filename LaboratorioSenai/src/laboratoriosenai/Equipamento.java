@@ -24,7 +24,7 @@ public class Equipamento {
 
     private int codSoftware;
 
-    private int codLaboratorio;
+    private String codLaboratorio;
 
     private String sitPatrimonio;
 
@@ -32,23 +32,21 @@ public class Equipamento {
 
     private Date dataBaixaAtivo;
     
-    private String codBloco;
 
     public boolean incluirEquipamento() {
-       String sql =" insert into Equipamento (codSoftware, codBloco, codLaboratorio, tipoEquipamento, descrEquipamento, sistemaOperacional, sitPatrimonio, dataEntrAtivo, dataBaixaAtivo) ";
-       sql+= " values(?,?,?,?,?,?,?,?,?)";
+       String sql =" insert into Equipamento (codSoftware, codLaboratorio, tipoEquipamento, descrEquipamento, sistemaOperacional, sitPatrimonio, dataEntrAtivo, dataBaixaAtivo) ";
+       sql+= " values(?,?,?,?,?,?,?,?)";
        Connection con = Conexao.conectar();
         try {
            PreparedStatement  stm=con.prepareStatement(sql);
            stm.setInt(1, this.codSoftware);
-           stm.setString(2, this.codBloco);
-           stm.setInt(3, this.codLaboratorio);
-           stm.setString(4, this.tipoEquipamento);
-           stm.setString(5, this.descrEquipamento);
-           stm.setString(6, this.sistemaOperacional);
-           stm.setString(7, this.sitPatrimonio);
-           stm.setDate(8, (java.sql.Date) this.dataEntrAtivo);
-           stm.setDate(9, (java.sql.Date) this.dataBaixaAtivo);
+           stm.setString(2, this.codLaboratorio);
+           stm.setString(3, this.tipoEquipamento);
+           stm.setString(4, this.descrEquipamento);
+           stm.setString(5, this.sistemaOperacional);
+           stm.setString(6, this.sitPatrimonio);
+           stm.setDate(7, (java.sql.Date) this.dataEntrAtivo);
+           stm.setDate(8, (java.sql.Date) this.dataBaixaAtivo);
            stm.execute();
         } catch (SQLException ex) {
             System.out.println("Error "+ex.getMessage()+sql);
@@ -60,14 +58,12 @@ public class Equipamento {
     public void alterarEquipamento() {
        String sql =" UPDATE Equipamento ";
        sql+= "SET tipoEquipamento =?, ";
-       sql+= "descrEquipamento =?, ";
-       sql+= "sistemaOperacional = ?, ";
-       sql+="sitPatrimonio = ?, ";
-       sql+="dataEntrAtivo = ?, ";
-       sql+="dataBaixaAtivo = ? ";
-       //sql+="codBloco = ?, ";
-       //sql+="codLaboratorio = ?,";
-       //sql+="codSoftware = ? ";
+       sql+= " descrEquipamento =?, ";
+       sql+= " sistemaOperacional = ?, ";
+       sql+=" sitPatrimonio = ?, ";
+       sql+=" dataBaixaAtivo = ?, ";
+       sql+=" codLaboratorio = ?,";
+       sql+=" codSoftware = ? ";
        sql+=" WHERE codAtivo = ? ";
        Connection con = Conexao.conectar();
         try {
@@ -76,25 +72,85 @@ public class Equipamento {
            stm.setString(2, this.descrEquipamento);
            stm.setString(3, this.sistemaOperacional);
            stm.setString(4, this.sitPatrimonio);
-           stm.setDate(5, (java.sql.Date) this.dataEntrAtivo);
-           stm.setDate(6, (java.sql.Date) this.dataBaixaAtivo);
-           //stm.setString(7, this.codBloco);
-           //stm.setInt(8, this.codLaboratorio);
-           //stm.setInt(9, this.codSoftware);
-           stm.setInt(7, this.codAtivo);
+           stm.setDate(5, (java.sql.Date) this.dataBaixaAtivo);
+           stm.setString(6, this.codLaboratorio);
+           stm.setInt(7, this.codSoftware);
+           stm.setInt(8, this.codAtivo);
            stm.execute();
-            System.out.println("Deu bom");
+           System.out.println("Deu bom");
         } catch (SQLException ex) {
             System.out.println("Error "+ex.getMessage()+sql);
         }
     }
 
-    public void excluirEquipamento() {
-        // TODO implement here
+    public boolean excluirEquipamento() {
+       String sql =" DELETE FROM Equipamento ";
+       sql+= " WHERE codAtivo = ? ";
+       Connection con = Conexao.conectar();
+        try {
+           PreparedStatement  stm=con.prepareStatement(sql);
+           stm.setInt(1, this.codAtivo);
+           stm.execute();
+        } catch (SQLException ex) {
+            System.out.println("Error "+ex.getMessage()+sql);
+            return false;
+        }
+        return true;
     }
 
-    public void consultarEquipamento() {
-        // TODO implement here
+    public Equipamento consultarEquipamento(int pCodAtivo) {
+       Connection con = Conexao.conectar();
+       String sql=" select codAtivo, codSoftware, codLaboratorio, tipoEquipamento, descrEquipamento, sistemaOperacional, sitPatrimonio, dataEntrAtivo, dataBaixaAtivo ";
+       sql+=" from Equipamento ";
+       sql+=" where codAtivo = ? ";
+       Equipamento equ = null;
+       try {
+           PreparedStatement  stm=con.prepareStatement(sql);
+           stm.setInt(1, pCodAtivo);
+           ResultSet rst = stm.executeQuery();
+           if(rst.next()){
+               equ = new Equipamento();
+               equ.setCodAtivo(rst.getInt("codAtivo"));
+               equ.setCodSoftware(rst.getInt("codSoftware"));
+               equ.setCodLaboratorio(rst.getString("codLaboratorio"));
+               equ.setTipoEquipamento(rst.getString("tipoEquipamento"));
+               equ.setdescrEquipamento(rst.getString("descrEquipamento"));
+               equ.setSistemaOperacional(rst.getString("sistemaOperacional"));
+               equ.setSitPatrimonio(rst.getString("sitPatrimonio"));
+               equ.setDataEntrAtivo(rst.getDate("dataEntrAtivo"));
+               equ.setDataBaixaAtivo(rst.getDate("dataBaixaAtivo"));
+           }
+        } catch (SQLException ex) {
+            System.out.println("Error "+ex.getMessage()+sql);
+        }
+        return equ;
+    }
+    public List<Equipamento> consultarEquipamentos() {
+        List<Equipamento> lista = new ArrayList<>();
+        Connection con = Conexao.conectar();
+       String sql=" select codAtivo, codSoftware, codLaboratorio, tipoEquipamento, descrEquipamento, sistemaOperacional, sitPatrimonio, dataEntrAtivo, dataBaixaAtivo ";
+       sql+= "from equipamento ";
+       sql+= " order by codAtivo ";
+       try {
+           PreparedStatement  stm=con.prepareStatement(sql);
+           ResultSet rst = stm.executeQuery();
+           while(rst.next()){
+              Equipamento equ = new Equipamento();
+              equ.setCodAtivo(rst.getInt("codAtivo"));
+              equ.setCodSoftware(rst.getInt("codSoftware"));
+              equ.setCodLaboratorio(rst.getString("codLaboratorio"));
+               equ.setTipoEquipamento(rst.getString("tipoEquipamento"));
+               equ.setdescrEquipamento(rst.getString("descrEquipamento"));
+               equ.setSistemaOperacional(rst.getString("sistemaOperacional"));
+               equ.setSitPatrimonio(rst.getString("sitPatrimonio"));
+               equ.setDataEntrAtivo(rst.getDate("dataEntrAtivo"));
+               equ.setDataBaixaAtivo(rst.getDate("dataBaixaAtivo"));
+              lista.add(equ);
+           }
+        }catch (SQLException ex) {
+            System.out.println("Error "+ex.getMessage()+sql);
+        }
+        return lista;
     }
 
     public int getCodAtivo() {
@@ -137,11 +193,11 @@ public class Equipamento {
         this.codSoftware = codSoftware;
     }
 
-    public int getCodLaboratorio() {
+    public String getCodLaboratorio() {
         return codLaboratorio;
     }
 
-    public void setCodLaboratorio(int codLaboratorio) {
+    public void setCodLaboratorio(String codLaboratorio) {
         this.codLaboratorio = codLaboratorio;
     }
 
@@ -167,14 +223,6 @@ public class Equipamento {
 
     public void setDataBaixaAtivo(Date dataBaixaAtivo) {
         this.dataBaixaAtivo = dataBaixaAtivo;
-    }
-
-    public String getCodBloco() {
-        return codBloco;
-    }
-
-    public void setCodBloco(String codBloco) {
-        this.codBloco = codBloco;
     }
 
 }

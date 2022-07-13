@@ -11,9 +11,7 @@ public class Laboratorio extends Equipamento {
 
     public Laboratorio() {
     }
-    private String codBloco;
-    
-    private int codLaboratorio;
+    private String codLaboratorio;
 
     private String tipoLaboratorio;
 
@@ -22,16 +20,15 @@ public class Laboratorio extends Equipamento {
     private String situacaoLaboratorio;
 
     public boolean incluirLaboratorio() {
-       String sql =" insert into laboratorio (codBloco,codLaboratorio,tipoLaboratorio,descrlaboratorio,situacaolaboratorio) ";
-       sql+= " values(?,?,?,?,?)";
+       String sql =" insert into laboratorio (codLaboratorio,tipoLaboratorio,descrlaboratorio,situacaolaboratorio) ";
+       sql+= " values(?,?,?,?)";
        java.sql.Connection con = Conexao.conectar();
         try {
            PreparedStatement  stm=con.prepareStatement(sql);
-           stm.setString(1, this.codBloco);
-           stm.setInt(2, this.codLaboratorio);
-           stm.setString(3, this.tipoLaboratorio);
-           stm.setString(4, this.descrLaboratorio);
-           stm.setString(5, this.situacaoLaboratorio);
+           stm.setString(1, this.getCodLaboratorio());
+           stm.setString(2, this.getTipoLaboratorio());
+           stm.setString(3, this.getDescrLaboratorio());
+           stm.setString(4, this.getSituacaoLaboratorio());
            stm.execute();
         } catch (SQLException ex) {
             System.out.println("Error "+ex.getMessage()+sql);
@@ -45,15 +42,14 @@ public class Laboratorio extends Equipamento {
        sql+= "SET tipoLaboratorio =?, ";
        sql+= "descrLaboratorio =?, ";  
        sql+= "situacaoLaboratorio = ? ";
-       sql+=" WHERE codBloco=? and codLaboratorio=? ";
+       sql+=" WHERE codLaboratorio=? ";
        Connection con = Conexao.conectar();
        try {
            PreparedStatement  stm=con.prepareStatement(sql);
-           stm.setString(1, this.tipoLaboratorio);
-           stm.setString(2, this.descrLaboratorio);
-           stm.setString(3, this.situacaoLaboratorio);
-           stm.setString(4, this.codBloco);
-           stm.setInt(5, this.codLaboratorio);
+           stm.setString(1, this.getTipoLaboratorio());
+           stm.setString(2, this.getDescrLaboratorio());
+           stm.setString(3, this.getSituacaoLaboratorio());
+           stm.setString(4, this.getCodLaboratorio());
            stm.execute();
            System.out.println("Deu certo");
          } catch (SQLException ex) {
@@ -63,12 +59,11 @@ public class Laboratorio extends Equipamento {
 
     public boolean excluirLaboratorio() {
         String sql =" DELETE FROM laboratorio ";
-       sql+= " WHERE codBloco = ? and codLaboratorio = ? ";
+       sql+= " WHERE codLaboratorio = ? ";
        Connection con = Conexao.conectar();
         try {
            PreparedStatement  stm=con.prepareStatement(sql);
-           stm.setString(1, this.codBloco);
-           stm.setInt(2, this.codLaboratorio);
+           stm.setString(1, this.getCodLaboratorio());
            stm.execute();
         } catch (SQLException ex) {
             System.out.println("Error "+ex.getMessage()+sql);
@@ -77,20 +72,18 @@ public class Laboratorio extends Equipamento {
         return true;
     }
 
-    public Laboratorio consultarLaboratorio(String pCodBloco, int pCodLaboratorio) {
+    public Laboratorio consultarLaboratorio(String pCodLaboratorio) {
        Connection con = Conexao.conectar();
-       String sql =" select codBloco, codLaboratorio, tipoLaboratorio, descrLaboratorio, situacaoLaboratorio ";
+       String sql =" select  codLaboratorio, tipoLaboratorio, descrLaboratorio, situacaoLaboratorio ";
        sql+= " from laboratorio ";
-       sql+= "where codBloco = ? and codLaboratorio = ? ";
+       sql+= "where  codLaboratorio = ? ";
        Laboratorio labo = null;
        try {
            PreparedStatement  stm=con.prepareStatement(sql);
-           stm.setString(1, pCodBloco);
-           stm.setInt(2, pCodLaboratorio);
+           stm.setString(1, pCodLaboratorio);
            ResultSet rst = stm.executeQuery();
            if(rst.next()){
                labo = new Laboratorio();
-               labo.setCodBloco(pCodBloco);
                labo.setCodLaboratorio(pCodLaboratorio);
                labo.setTipoLaboratorio(rst.getString("tipoLaboratorio"));
                labo.setDescrLaboratorio(rst.getString("descrLaboratorio"));
@@ -104,16 +97,15 @@ public class Laboratorio extends Equipamento {
     public List<Laboratorio> consultarLaboratorios() {
         List<Laboratorio> lista = new ArrayList<>();
         Connection con = Conexao.conectar();
-       String sql =" select codBloco, codLaboratorio, tipoLaboratorio, descrLaboratorio, situacaoLaboratorio ";
+       String sql =" select  codLaboratorio, tipoLaboratorio, descrLaboratorio, situacaoLaboratorio ";
        sql+= " from laboratorio ";
-       sql+= " order by codBloco and codLaboratorio";
+       sql+= " order by codLaboratorio";
        try {
            PreparedStatement  stm=con.prepareStatement(sql);
            ResultSet rst = stm.executeQuery();
            while(rst.next()){
                Laboratorio labo = new Laboratorio();
-               labo.setCodBloco(rst.getString("codBloco"));
-               labo.setCodLaboratorio(rst.getInt("codLaboratorio"));
+               labo.setCodLaboratorio(rst.getString("codLaboratorio"));
                labo.setTipoLaboratorio(rst.getString("tipoLaboratorio"));
                labo.setDescrLaboratorio(rst.getString("descrLaboratorio"));
                labo.setSituacaoLaboratorio(rst.getString("situacaoLaboratorio"));
@@ -124,45 +116,57 @@ public class Laboratorio extends Equipamento {
         }
         return lista;
     }
-
-    public int getCodLaboratorio() {
+    
+    public String getCodLaboratorio() {
         return codLaboratorio;
     }
 
-    public void setCodLaboratorio(int codLaboratorio) {
+    
+    public void setCodLaboratorio(String codLaboratorio) {
         this.codLaboratorio = codLaboratorio;
     }
 
-    public String getCodBloco() {
-        return codBloco;
-    }
-
-    public void setCodBloco(String codBloco) {
-        this.codBloco = codBloco;
-    }
-
+    /**
+     * @return the tipoLaboratorio
+     */
     public String getTipoLaboratorio() {
         return tipoLaboratorio;
     }
 
+    /**
+     * @param tipoLaboratorio the tipoLaboratorio to set
+     */
     public void setTipoLaboratorio(String tipoLaboratorio) {
         this.tipoLaboratorio = tipoLaboratorio;
     }
 
+    /**
+     * @return the descrLaboratorio
+     */
     public String getDescrLaboratorio() {
         return descrLaboratorio;
     }
 
+    /**
+     * @param descrLaboratorio the descrLaboratorio to set
+     */
     public void setDescrLaboratorio(String descrLaboratorio) {
         this.descrLaboratorio = descrLaboratorio;
     }
 
+    /**
+     * @return the situacaoLaboratorio
+     */
     public String getSituacaoLaboratorio() {
         return situacaoLaboratorio;
     }
 
+    /**
+     * @param situacaoLaboratorio the situacaoLaboratorio to set
+     */
     public void setSituacaoLaboratorio(String situacaoLaboratorio) {
         this.situacaoLaboratorio = situacaoLaboratorio;
     }
+   
 
 }

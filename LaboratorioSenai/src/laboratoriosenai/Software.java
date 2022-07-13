@@ -20,10 +20,10 @@ public class Software {
 
     private Date dataInstalacao;
     
-    private String tipoLicença;
+    private String tipoLicenca;
 
     public boolean incluirSoftware() {
-       String sql =" insert into Software (descSoftware,descVersao,dataInstalaçao,tipoLicença) ";
+       String sql =" insert into Software (descSoftware,descVersao,dataInstalacao,tipoLicenca) ";
        sql+= " values(?,?,?,?)";
        Connection con = Conexao.conectar();
         try {
@@ -31,7 +31,7 @@ public class Software {
            stm.setString(1, this.descSoftware);
            stm.setString(2, this.descVersao);
            stm.setDate(3, (java.sql.Date) this.dataInstalacao);
-           stm.setString(4, this.tipoLicença);
+           stm.setString(4, this.tipoLicenca);
            stm.execute();
         } catch (SQLException ex) {
             System.out.println("Error "+ex.getMessage()+sql);
@@ -44,8 +44,8 @@ public class Software {
         String sql =" UPDATE Software ";
        sql+= "SET descSoftware =?, ";
        sql+= "descVersao =?, ";
-       sql+= "dataInstalaçao = ?, ";
-       sql+=" tipoLicença = ? ";
+       sql+= "dataInstalacao = ?, ";
+       sql+=" tipoLicenca = ? ";
        sql+=" WHERE codSoftware = ? ";
        Connection con = Conexao.conectar();
         try {
@@ -53,7 +53,7 @@ public class Software {
            stm.setString(1, this.descSoftware);
            stm.setString(2, this.descVersao);
            stm.setDate(3, (java.sql.Date) this.dataInstalacao);
-           stm.setString(4, this.tipoLicença);
+           stm.setString(4, this.tipoLicenca);
            stm.setInt(5, this.codSoftware);
            stm.execute();
             System.out.println("Deu bom");
@@ -79,9 +79,9 @@ public class Software {
 
     public Software consultarSoftware(int pCodSoftware) {
        Connection con = Conexao.conectar();
-       String sql =" select descSoftware, descVersao, dataInstalaçao, tipoLicença ";
+       String sql =" select codsoftware, descsoftware, descversao, datainstalacao, tipolicenca ";
        sql+= " from software ";
-       sql+= "where codSoftware ";
+       sql+= "where codSoftware = ? ";
        Software soft = null;
        try {
            PreparedStatement  stm=con.prepareStatement(sql);
@@ -92,8 +92,8 @@ public class Software {
                soft.setCodSoftware(pCodSoftware);
                soft.setDescSoftware(rst.getString("descSoftware"));
                soft.setDescVersao(rst.getString("descVersao"));
-               soft.setDataInstalacao(rst.getDate("dataInstalaçao"));
-               soft.setTipoLicença(rst.getString("tipoLicença"));
+               soft.setDataInstalacao(rst.getDate("dataInstalacao"));
+               soft.setTipoLicença(rst.getString("tipoLicenca"));
            }
         } catch (SQLException ex) {
             System.out.println("Error "+ex.getMessage()+sql);
@@ -103,9 +103,9 @@ public class Software {
     public List<Software> consultarSoftwares() {
         List<Software> lista = new ArrayList<>();
         Connection con = Conexao.conectar();
-       String sql =" select codSoftware, descSoftware, descVersao, dataInstalaçao, tipoLicença ";
-       sql+= " from software ";
-       sql+= " order by codSoftware = ?";
+        String sql =" select codsoftware, descsoftware, descversao, datainstalacao, tipolicenca ";
+        sql+= " from Software ";
+        sql+= " order by codsoftware ";
        try {
            PreparedStatement  stm=con.prepareStatement(sql);
            ResultSet rst = stm.executeQuery();
@@ -114,8 +114,8 @@ public class Software {
               soft.setCodSoftware(rst.getInt("codSoftware"));
                soft.setDescSoftware(rst.getString("descSoftware"));
                soft.setDescVersao(rst.getString("descVersao"));
-               soft.setDataInstalacao(rst.getDate("dataInstalaçao"));
-               soft.setTipoLicença(rst.getString("tipoLicença"));
+               soft.setDataInstalacao(rst.getDate("dataInstalacao"));
+               soft.setTipoLicença(rst.getString("tipoLicenca"));
               lista.add(soft);
            }
         }catch (SQLException ex) {
@@ -156,12 +156,12 @@ public class Software {
         this.dataInstalacao = dataInstalacao;
     }
 
-    public String getTipoLicença() {
-        return tipoLicença;
+    public String getTipoLicenca() {
+        return tipoLicenca;
     }
 
-    public void setTipoLicença(String tipoLicença) {
-        this.tipoLicença = tipoLicença;
+    public void setTipoLicença(String tipoLicenca) {
+        this.tipoLicenca = tipoLicenca;
     }
 
 }
